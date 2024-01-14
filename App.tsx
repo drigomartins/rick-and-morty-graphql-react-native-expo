@@ -1,20 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ThemeProvider } from '@/presentation/context';
+import { Home } from '@/presentation/pages/home';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
-export default function App() {
+export const App = () => {
+  const client = new ApolloClient({
+    uri: 'https://rickandmortyapi.com/graphql',
+    cache: new InMemoryCache(),
+    connectToDevTools: false,
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ApolloProvider client={client}>
+      <ThemeProvider>
+        <Home />
+      </ThemeProvider>
+    </ApolloProvider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
+export default App;
